@@ -10,7 +10,7 @@ def simple_publisher():
   while not rospy.is_shutdown():
     num = random.uniform(0,10)
     rospy.loginfo(num)
-    pub.publish(num)
+    pub.publish(Float32(num))
     rate.sleep()
     
 if __name__ == '__main__':
