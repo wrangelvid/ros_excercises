@@ -5,9 +5,10 @@ from sensor_msgs.msg import LaserScan
 from ros_exercises.msg import OpenSpace
 import math
 
-pub_distance = rospy.Publisher('open_space/distance', Float32, queue_size = 10)
-pub_angle = rospy.Publisher('open_space/angle', Float32, queue_size = 10)
-pub = rospy.Publisher('open_space', OpenSpace, queue_size = 10)
+pub_topic = rospy.get_param("/open_space_publisher/pub_topic", "open_space")
+pub_distance = rospy.Publisher("{}/distance".format(pub_topic), Float32, queue_size = 10)
+pub_angle = rospy.Publisher('{}/angle'.format(pub_topic), Float32, queue_size = 10)
+pub = rospy.Publisher(pub_topic, OpenSpace, queue_size = 10)
 
 def get_longest_range(msg):
   scan = msg
@@ -30,7 +31,7 @@ def get_longest_range(msg):
   
 def listener():
   rospy.init_node('open_space_publisher')
-  rospy.Subscriber('fake_scan', LaserScan, get_longest_range)
+  rospy.Subscriber(rospy.get_param("/open_space_publisher/sub_topic", 'fake_scan'), LaserScan, get_longest_range)
   rospy.spin()
 
 
